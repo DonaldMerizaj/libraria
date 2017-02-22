@@ -18,7 +18,6 @@ class LibriTable extends Migration
             $table->string('titulli');
             $table->integer('id_autor')->unsigned();
             $table->string('shtepi_botuese');
-            $table->integer('id_zhanri')->unsigned();
             $table->dateTime('viti');
             $table->string('desc');
             $table->integer('cmimi');
@@ -28,7 +27,6 @@ class LibriTable extends Migration
 
         Schema::table('libri', function (Blueprint $table){
             $table->foreign('id_autor')->references('autor_id')->on('autor');
-            $table->foreign('id_zhanri')->references('zhanri_id')->on('zhanri');
         });
     }
 

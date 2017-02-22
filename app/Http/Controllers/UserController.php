@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Classes\LoginClass;
+use App\Http\Controllers\Classes\LoginClass;
+use App\Http\Controllers\Classes\UserClass;
 use App\Models\KlientModel;
 use App\Models\LoginModel;
 use App\Models\UserModel;
@@ -33,6 +34,20 @@ class UserController extends Controller
         }
            else{
             return Redirect::back()->withErrors('Të dhënat nuk u gjetën, ju lutemi vendosni të dhënat e sakta!');
+        }
+    }
+
+    public function listoPunonjes(){
+        $punonjes = UserModel::select(UserClass::TABLE_NAME.'.'.UserClass::EMRI, UserClass::TABLE_NAME.'.'.UserClass::MBIEMRI,
+            UserClass::TABLE_NAME.'.'.UserClass::EMAIL)
+            ->join(LoginClass::TABLE_NAME, LoginClass::TABLE_NAME.'.'.LoginClass::ID, UserClass::TABLE_NAME.'.'.UserClass::ID_LOGIN)
+            ->where(LoginClass::TABLE_NAME.'.'.LoginClass::ROLE, LoginClass::PUNONJES)
+            ->get();
+        if ($punonjes) {
+            return view('backend.users')
+                ->with('users', $punonjes);
+        }else{
+            return Redirect::back();
         }
     }
 

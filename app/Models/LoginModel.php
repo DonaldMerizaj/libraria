@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\LoginClass;
+use App\Http\Controllers\Classes\LoginClass;
 use Illuminate\Database\Eloquent\Model;
 
 class LoginModel extends Model

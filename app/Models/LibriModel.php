@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\LibriClass;
+use App\Http\Controllers\Classes\LibriClass;
 use Illuminate\Database\Eloquent\Model;
 
 class LibriModel extends Model

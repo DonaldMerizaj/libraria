@@ -2,7 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\Classes\LoginClass;
+use App\Http\Controllers\Classes\UserClass;
+use App\Http\Controllers\Utils;
 use Closure;
+use Illuminate\Support\Facades\Redirect;
 
 class IsPunonjes
 {
@@ -15,6 +19,10 @@ class IsPunonjes
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if ( Utils::getRole() <= LoginClass::PUNONJES){
+            return $next($request);
+        }else{
+            return Redirect::back();
+        }
     }
 }

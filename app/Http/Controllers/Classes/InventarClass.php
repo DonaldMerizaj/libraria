@@ -6,7 +6,7 @@
  * Time: 9:56 PM
  */
 
-namespace App\Http\Classes;
+namespace App\Http\Controllers\Classes;
 
 
 class InventarClass

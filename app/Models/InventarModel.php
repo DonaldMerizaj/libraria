@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\InventarClass;
+use App\Http\Controllers\Classes\InventarClass;
 use Illuminate\Database\Eloquent\Model;
 
 class InventarModel extends Model
