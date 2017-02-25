@@ -6,6 +6,7 @@ use App\Http\Classes\LoginClass;
 use App\Models\KlientModel;
 use App\Models\LoginModel;
 use App\Models\UserModel;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -21,7 +22,12 @@ class UserController extends Controller
 //        echo $pass;die();
         $user=LoginModel::where('username',$request->username)->where('password',$pass)
             ->first();
-        if(count($user) > 0) {
+//        echo count($user); die();
+
+
+//        $us = DB::select("Select * from login where login.username ='$request->username' and login.password = '$request->password'");
+//        echo count($us); die();
+        if(count($user) > 0){
             $role = $user->role;
             if ($role == LoginClass::KLIENT) {
                 $useri = KlientModel::where('id_login', $user->login_id)->first();

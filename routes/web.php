@@ -29,6 +29,7 @@ Route::get('/', function () {
 
 // home page
 Route::post('/login', 'UserController@login')->name('login');
+//Route::get('/pass', 'UserController@pass')->name('pass');
 
 Route::group(['middleware'=> 'isLogged'], function (){
     Route::get('/dashboard', 'UserController@index')->name('dashboard');
