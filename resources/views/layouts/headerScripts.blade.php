@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{!! asset('/assets/bower_components/loaders.css/loaders.min.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/bower_components/chosen/chosen.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/css/AdminLTE.css') !!}">
+<link rel="stylesheet" href="{!! asset('/assets/css/select2.min.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/css/datatable/dataTables.bootstrap.css') !!}">
 {{--<link rel="stylesheet" href="{!! asset('/assets/less/AdminLTE.less') !!}">--}}
 

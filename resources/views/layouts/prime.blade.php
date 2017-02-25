@@ -96,6 +96,7 @@
 
     <script src="{!! asset('/assets/js/datatable/dataTables.bootstrap.js')!!}"></script>
     <script src="{!! asset('/assets/js/app.js')!!}"></script>
+    <script src="{!! asset('/assets/js/select2.min.js')!!}"></script>
 
     <!-- Morris Charts JavaScript -->
     <script src="{!! asset('/assets/js/plugins/morris/raphael.min.js') !!}"></script>
