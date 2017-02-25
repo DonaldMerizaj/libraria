@@ -6,7 +6,7 @@
  * Time: 9:31 PM
  */
 
-namespace App\Http\Classes;
+namespace App\Http\Controllers\Classes;
 
 
 class KlientClass

@@ -12,7 +12,5 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call(KrijoAdminSeed::class);
-         $this->call(KrijoPunonjesSeed::class);
-         $this->call(KrijoKlientSeed::class);
     }
 }

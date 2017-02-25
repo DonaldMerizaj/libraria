@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\UserClass;
+use App\Http\Controllers\Classes\UserClass;
 use Illuminate\Database\Eloquent\Model;
 
 class UserModel extends Model

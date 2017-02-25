@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\AutoriClass;
+use App\Http\Controllers\Classes\AutoriClass;
 use Illuminate\Database\Eloquent\Model;
 
 class AutorModel extends Model

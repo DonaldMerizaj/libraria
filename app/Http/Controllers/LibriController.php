@@ -2,23 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Classes\AutoriClass;
-use App\Http\Classes\LibriClass;
-use App\Http\Classes\ZhanriClass;
+use App\Http\Controllers\Classes\AutoriClass;
+use App\Http\Controllers\Classes\InventarClass;
+use App\Http\Controllers\Classes\LibriClass;
+use App\Http\Controllers\Classes\ZhanriClass;
 use App\Models\LibriModel;
 use Illuminate\Http\Request;
 
 class LibriController extends Controller
 {
     public function index(){
-        $librat = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI, LibriClass::CMIMI,
-                    LibriClass::SHTEPI_BOTUESE,LibriClass::VITI, LibriClass::DESC, LibriClass::TABLE_NAME.'.'.LibriClass::IMAGE,
-                    ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI)
+        $librat = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,LibriClass::TABLE_NAME.'.'.LibriClass::ID,
+                    LibriClass::TABLE_NAME.'.'.LibriClass::CMIMI, LibriClass::TABLE_NAME.'.'.LibriClass::SHTEPI_BOTUESE,
+                    LibriClass::TABLE_NAME.'.'.LibriClass::VITI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI,
+                    AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
                     ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
-                    ->join(ZhanriClass::TABLE_NAME, ZhanriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_ZHANRI)
+                    ->join(InventarClass::TABLE_NAME, InventarClass::ID_LIBRI, LibriClass::TABLE_NAME.'.'.LibriClass::ID)
                     ->get();
 
         return view('backend.librat')
             ->with('librat', $librat);
+    }
+
+    public function edito($id){
+        if (isset($id) && is_numeric($id)){
+            //TODO:edit libri
+//            $libri =
+        }else{
+            abort(404);
+        }
     }
 }

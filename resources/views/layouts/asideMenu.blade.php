@@ -20,7 +20,7 @@
             <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-book"></i> Librat </a>
         </li>
         <li class="">
-            <a href=""><i class="fa fa-fw fa-users"></i> Përdoruesit </a>
+            <a href="{!! URL::route('listUsers') !!}"><i class="fa fa-fw fa-users"></i> Përdoruesit </a>
         </li>
     </ul>
 </div>

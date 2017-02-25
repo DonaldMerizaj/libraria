@@ -90,14 +90,17 @@
     <!-- /#wrapper -->
 
 
-
     <!-- Bootstrap Core JavaScript -->
     <script src="{!! asset('/assets/js/bootstrap.min.js')!!}"></script>
+    <script src="{!! asset('/assets/js/datatable/jquery.dataTables.js')!!}"></script>
+
+    <script src="{!! asset('/assets/js/datatable/dataTables.bootstrap.js')!!}"></script>
+    <script src="{!! asset('/assets/js/app.js')!!}"></script>
 
     <!-- Morris Charts JavaScript -->
     <script src="{!! asset('/assets/js/plugins/morris/raphael.min.js') !!}"></script>
     <script src="{!! asset('/assets/js/plugins/morris/morris.min.js') !!}"></script>
-    <script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>
+    {{--<script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>--}}
 
 </body>
 

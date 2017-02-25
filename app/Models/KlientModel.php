@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Classes\KlientClass;
+use App\Http\Controllers\Classes\KlientClass;
 use Illuminate\Database\Eloquent\Model;
 
 class KlientModel extends Model
