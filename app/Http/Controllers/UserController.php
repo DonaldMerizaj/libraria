@@ -50,13 +50,16 @@ class UserController extends Controller
             ->where(LoginClass::TABLE_NAME.'.'.LoginClass::ROLE, LoginClass::PUNONJES)
             ->get();
         if ($punonjes) {
-            return view('backend.users')
+            return view('backend.users.users')
                 ->with('users', $punonjes);
         }else{
             return Redirect::back();
         }
     }
 
+    public function create(){
+
+    }
     public function index(){
         return view('backend.home');
     }

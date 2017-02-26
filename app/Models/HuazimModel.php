@@ -9,4 +9,5 @@ class HuazimModel extends Model
 {
     protected $table = HuazimClass::TABLE_NAME;
     protected $primaryKey = HuazimClass::ID;
+    public $timestamps = false;
 }

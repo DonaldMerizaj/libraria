@@ -72,9 +72,9 @@
                                 <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <button data-id="{!! $l->libri_id !!}" class="huazoLibrin btn btn-warning">
+                                <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
                                     <i class="fa fa-money"></i>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

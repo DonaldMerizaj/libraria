@@ -103,7 +103,6 @@
                 {!! Form::close() !!}
             </div>
         </div>
-    </div>
 
     <script>
         $(function () {

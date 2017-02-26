@@ -9,4 +9,5 @@ class KlientModel extends Model
 {
     protected $table = KlientClass::TABLE_NAME;
     protected $primaryKey = KlientClass::ID;
+    public $timestamps = false;
 }

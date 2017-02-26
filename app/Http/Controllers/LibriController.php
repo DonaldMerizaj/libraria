@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Classes\AutoriClass;
 use App\Http\Controllers\Classes\InventarClass;
+use App\Http\Controllers\Classes\KlientClass;
 use App\Http\Controllers\Classes\LibriClass;
 use App\Http\Controllers\Classes\LibriToZhanriClass;
 use App\Http\Controllers\Classes\ZhanriClass;
 use App\Models\AutorModel;
 use App\Models\InventarModel;
+use App\Models\KlientModel;
 use App\Models\LibriModel;
 use App\Models\LibriToZhanriModel;
 use App\Models\ZhanriModel;
@@ -146,4 +148,49 @@ class LibriController extends Controller
             abort(404);
         }
     }
+
+    public function huazo($id){
+
+        if (isset($id) && is_numeric($id)){
+            $libri = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,LibriClass::TABLE_NAME.'.'.LibriClass::ID,
+                LibriClass::TABLE_NAME.'.'.LibriClass::CMIMI, LibriClass::TABLE_NAME.'.'.LibriClass::SHTEPI_BOTUESE,
+                LibriClass::TABLE_NAME.'.'.LibriClass::VITI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI,LibriClass::TABLE_NAME.'.'.LibriClass::DESC,
+                AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI)
+                ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
+                ->where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $id)
+                ->first();
+//            $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
+//                AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)
+//                ->get();
+//            $zhanri = ZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI, ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID)
+//                ->get();
+            $zhanriLibrit = LibriToZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI)
+                ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID,
+                    LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI)
+                ->join(ZhanriClass::TABLE_NAME, ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID,
+                    LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_ZHANRI)
+                ->where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI, $id)
+                ->get();
+
+            $klient = KlientModel::select(KlientClass::TABLE_NAME.'.'.KlientClass::ID,KlientClass::TABLE_NAME.'.'.KlientClass::EMRI,
+                KlientClass::TABLE_NAME.'.'.KlientClass::MBIEMRI, KlientClass::TABLE_NAME.'.'.KlientClass::EMAIL,
+                KlientClass::TABLE_NAME.'.'.KlientClass::CEL )
+                ->get();
+            if (count($libri) > 0){
+                return view('backend.libri.huazo')
+                    ->with('libri', $libri)
+                    ->with('klient', $klient)
+//                    ->with('zhanri', $zhanri)
+                    ->with('zhanri', $zhanriLibrit)
+                    ;
+            }else{
+                abort(404);
+            }
+
+        }else{
+            abort(404);
+        }
+    }
+
+
 }
