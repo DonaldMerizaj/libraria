@@ -88,7 +88,7 @@
 
     </div>
     <!-- /#wrapper -->
-
+    <script src="{!! asset('/assets/js/daterangepicker.js')!!}"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{!! asset('/assets/js/bootstrap.min.js')!!}"></script>
@@ -97,11 +97,13 @@
     <script src="{!! asset('/assets/js/datatable/dataTables.bootstrap.js')!!}"></script>
     <script src="{!! asset('/assets/js/app.js')!!}"></script>
     <script src="{!! asset('/assets/js/select2.min.js')!!}"></script>
+    <script src="{!! asset('/assets/js/select2.full.min.js')!!}"></script>
 
     <!-- Morris Charts JavaScript -->
     <script src="{!! asset('/assets/js/plugins/morris/raphael.min.js') !!}"></script>
     <script src="{!! asset('/assets/js/plugins/morris/morris.min.js') !!}"></script>
     {{--<script src="{!! asset('/assets/js/plugins/morris/rmorris-data.js') !!}"></script>--}}
+    <script src="{!! asset("assets/js/jquery.validate.js") !!}"></script>
 
 </body>
 

@@ -34,6 +34,8 @@ Route::post('/login', 'UserController@login')->name('login');
 Route::group(['middleware'=> 'isLogged'], function (){
     Route::get('/dashboard', 'UserController@index')->name('dashboard');
     Route::get('/dashboard/librat', 'LibriController@index')->name('listLibrat');
+    Route::get('/dashboard/librat/krijo', 'LibriController@create')->name('krijoLiber');
+    Route::post('/dashboard/librat/krijo/ruaj', 'LibriController@ruaj')->name('ruajLiber');
     Route::get('/dashboard/librat/edito/{id}', 'LibriController@edit')->name('editLibri');
 //    Route::get('/dashboard/librat/edito/{id}', 'LibriController@edit')->name('viewLibri');
 

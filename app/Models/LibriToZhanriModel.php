@@ -9,4 +9,5 @@ class LibriToZhanriModel extends Model
 {
     protected $table = LibriToZhanriClass::TABLE_NAME;
     protected $primaryKey = LibriToZhanriClass::ID;
+    public $timestamps = false;
 }

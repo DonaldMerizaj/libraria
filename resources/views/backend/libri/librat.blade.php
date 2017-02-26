@@ -15,6 +15,12 @@
             </div>
 
             <div class="box-body">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <a href="{!! URL::route('krijoLiber') !!}" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Krijo
+                    </a>
+                </div>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>

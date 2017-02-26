@@ -16,8 +16,11 @@
 <link rel="stylesheet" href="{!! asset('/assets/bower_components/chosen/chosen.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/css/AdminLTE.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/css/select2.min.css') !!}">
+<link rel="stylesheet" href="{!! asset('/assets/css/datepicker3.css') !!}">
 <link rel="stylesheet" href="{!! asset('/assets/css/datatable/dataTables.bootstrap.css') !!}">
 {{--<link rel="stylesheet" href="{!! asset('/assets/less/AdminLTE.less') !!}">--}}
+<link rel="stylesheet" href="{!! asset('/assets/css/AdminLTE.min.css') !!}">
+<link rel="stylesheet" href="{!! asset('/assets/css/custom.css') !!}">
 
 <!-- jQuery -->
 <script src="{!! asset('/assets/js/jquery.js') !!}"></script>

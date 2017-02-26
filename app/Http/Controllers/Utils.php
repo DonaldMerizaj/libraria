@@ -9,13 +9,14 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class Utils
 {
     const SESSION_USER_ID = 'user_id';
     const SESSION_ROLE = 'role';
-
+    const PATH = '/img/';
 
     public static function setLogin($user_id, $role)
     {
@@ -44,5 +45,17 @@ class Utils
     public static function getUserId()
     {
         return Session::get(self::SESSION_USER_ID);
+    }
+
+    public static function ruajFoto($name){
+        $filename ='';
+        if(Input::file($name))
+        {
+            $image = Input::file($name);
+            $filename  = str_replace(".","",microtime(true)) . '.' . $image->getClientOriginalExtension();
+            Input::file($name)->move(Utils::PATH, $filename);
+        }
+        return $filename;
+
     }
 }
