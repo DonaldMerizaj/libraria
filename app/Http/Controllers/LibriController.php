@@ -120,7 +120,7 @@ class LibriController extends Controller
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                 ->join(InventarClass::TABLE_NAME, InventarClass::ID_LIBRI, LibriClass::TABLE_NAME.'.'.LibriClass::ID)
-                ->where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $id)
+                ->where(LibriClass::TABLE_NAME.'pl.'.LibriClass::ID, $id)
                 ->first();
             $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)

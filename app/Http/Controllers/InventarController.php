@@ -14,7 +14,7 @@ class InventarController extends Controller
 {
     public function raporte(){
         try{
-            //libri me i kerkuar sipas zhanerit
+            //libri me i huazuar
 //            $libri = DB::select('')
 
             //gjendja e librave ne inventar
@@ -22,16 +22,21 @@ class InventarController extends Controller
                 ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID, InventarClass::ID_LIBRI)
                 ->get();
 
-            //librat e huazuar
+            //librat e huazuar 3 muajt e fundit
             $huazim = HuazimModel::where(HuazimClass::TABLE_NAME.'.'.HuazimClass::KTHYER, HuazimClass::I_PAKTHYER)
                 ->get();
-            //kane kaluar afatin
+
+            //klientet e rinj muajin e fundit
             $jashteAfati = HuazimModel::where(HuazimClass::TABLE_NAME.'.'.HuazimClass::KTHYER, HuazimClass::I_PAKTHYER)
                 ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::DATA_DOREZIMIT, '<', date('Y-m-d'))
                 ->get();
 
-            echo count($huazim).': jshAfati|'.count($huazim);die();
-        }catch(\Exception $e){
+            //librat qe kane kaluar afatin
+
+            //librat me pak se 3 ne gjendje
+
+        }
+        catch(\Exception $e){
             return Redirect::back()->withErrors($e->getMessage());
         }
     }
