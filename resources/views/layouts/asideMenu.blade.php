@@ -14,7 +14,7 @@
             <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
         </li>
         <li class="">
-            <a href=""><i class="fa fa-fw fa-line-chart"></i> Raporte </a>
+            <a href="{!! URL::route('listRaporte') !!}"><i class="fa fa-fw fa-line-chart"></i> Raporte </a>
         </li>
         <li class="">
             <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-book"></i> Librat </a>

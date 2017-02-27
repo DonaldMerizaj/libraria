@@ -38,13 +38,13 @@ class HuazimController extends Controller
                 $inventar = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
                     ->first();
 
-                if (count($inventar->gjendje) > 0){
-                    $inv = count($inventar) -1;
+                if ($inventar->gjendje > 0){
+                    $inv = $inventar->gjendje -1;
                     $updated = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
                         ->update(['gjendje' => $inv]);
                 }
                 DB::commit();
-                return Redirect::route('listLibrat')->send();
+                return Redirect::route('listKlient')->send();
 
             }else{
                 DB::rollback();

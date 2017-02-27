@@ -130,8 +130,10 @@
                                 <td>0{!! $l->cel !!}</td>
                                 <td>
                                     <?php
-                                    $librat = \App\Models\HuazimModel::where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
+                                    $librat = \App\Models\HuazimModel::select(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
                                         $l->klient_id)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::KTHYER, \App\Http\Controllers\Classes\HuazimClass::I_PAKTHYER)
                                         ->get();
 
                                     echo count($librat);
@@ -142,12 +144,25 @@
                                     <a href="{!! URL::route('editLibri', array($l->klient_id)) !!}" class="btn btn-default">
                                         <i class="fa fa-pencil"></i>
                                     </a>
-                                    {{--<a href="{!! URL::route('viewLibri', array($l->klient_id)) !!}" class="btn btn-info">--}}
-                                    {{--<i class="fa fa-eye"></i>--}}
-                                    {{--</a>--}}
-                                    <button data-id="{!! $l->klient_id !!}"  class="huazoLibrin btn btn-warning">
-                                        <i class="fa fa-money"></i>
-                                    </button>
+
+                                    <?php
+                                    $librat = \App\Models\HuazimModel::select(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
+                                            $l->klient_id)
+//                                        ->where(\App\Http\Controllers\Classes\HuazimClass::KTHYER, \App\Http\Controllers\Classes\HuazimClass::I_PAKTHYER)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI, $libri->libri_id)
+                                        ->get();
+                                    if (count($librat) > 0){
+                                            echo '';
+                                    }else{
+                                        echo '<button data-id="'. $l->klient_id .'"  class="huazoLibrin btn btn-info">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>';
+                                    }
+
+
+                                    ?>
+
                                 </td>
                             </tr>
                         @endforeach

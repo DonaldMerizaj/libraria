@@ -44,6 +44,7 @@
                                 <?php
                                 $librat = \App\Models\HuazimModel::where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
                                     $l->klient_id)
+                                    ->where(\App\Http\Controllers\Classes\HuazimClass::KTHYER, \App\Http\Controllers\Classes\HuazimClass::I_PAKTHYER)
                                     ->get();
 
                                 echo count($librat);
@@ -57,9 +58,10 @@
                                 {{--<a href="{!! URL::route('viewLibri', array($l->klient_id)) !!}" class="btn btn-info">--}}
                                     {{--<i class="fa fa-eye"></i>--}}
                                 {{--</a>--}}
-                                <button data-id="{!! $l->klient_id !!}" class="huazoLibrin btn btn-warning">
-                                    <i class="fa fa-money"></i>
-                                </button>
+
+                                <a href="{!! URL::route('shikoKlient', array($l->klient_id)) !!}" class="btn btn-default">
+                                    <i class="fa fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

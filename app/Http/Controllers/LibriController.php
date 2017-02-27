@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Classes\AutoriClass;
+use App\Http\Controllers\Classes\HuazimClass;
 use App\Http\Controllers\Classes\InventarClass;
 use App\Http\Controllers\Classes\KlientClass;
 use App\Http\Controllers\Classes\LibriClass;
 use App\Http\Controllers\Classes\LibriToZhanriClass;
 use App\Http\Controllers\Classes\ZhanriClass;
 use App\Models\AutorModel;
+use App\Models\HuazimModel;
 use App\Models\InventarModel;
 use App\Models\KlientModel;
 use App\Models\LibriModel;
@@ -192,5 +194,49 @@ class LibriController extends Controller
         }
     }
 
+    public function kthe(Request $request){
+        try {
+            DB::beginTransaction();
+            if (is_numeric($request->id)) {
+                $h = HuazimModel::where(HuazimClass::TABLE_NAME . '.' . HuazimClass::ID, $request->id)
+                    ->first();
+                if (count($h) > 0) {
+                    $id_libri = $h->id_libri;
+                } else {
+                    return [
+                        'status' => 0,
+                        'error' => 'Ky user nuk e ka kete liber!'
+                    ];
+                }
+
+                $done = HuazimModel::where(HuazimClass::TABLE_NAME . '.' . HuazimClass::ID, $request->id)
+                    ->update(['kthyer' => 1]);
+
+                $inv = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $id_libri)
+                    ->first();
+                $inv = $inv->gjendje +1;
+                InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $id_libri)
+                    ->update(['gjendje'=> $inv]);
+
+                DB::commit();
+
+                return [
+                    'status' => 1,
+                    'data' => 'Kthimi i librit u krye me sukses!'
+                ];
+            }else{
+                return [
+                    'status' => 0,
+                    'error' => 'Ndodhi gabim gjat kryerjes se veprimit, provo perseri me vone!'
+                ];
+            }
+        }catch (\Exception $e){
+            DB::rollback();
+            return [
+                'status' => 0,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
 
 }

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Classes\AutoriClass;
+use App\Http\Controllers\Classes\HuazimClass;
 use App\Http\Controllers\Classes\KlientClass;
+use App\Http\Controllers\Classes\LibriClass;
+use App\Models\HuazimModel;
 use App\Models\KlientModel;
+use App\Models\LibriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -53,5 +58,30 @@ class KlientController extends Controller
                 ->withErrors($e->getMessage());
         }
 
+    }
+
+    public function view($id){
+        if (is_numeric($id) && isset($id)){
+            $klienti = KlientModel::select(KlientClass::TABLE_NAME.'.'.KlientClass::ID,KlientClass::TABLE_NAME.'.'.KlientClass::EMRI,
+                KlientClass::TABLE_NAME.'.'.KlientClass::MBIEMRI, KlientClass::TABLE_NAME.'.'.KlientClass::EMAIL,
+                KlientClass::TABLE_NAME.'.'.KlientClass::CEL )
+                ->where(KlientClass::TABLE_NAME.'.'.KlientClass::ID, $id)
+                ->first();
+
+            $librat = HuazimModel::select(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID, HuazimClass::TABLE_NAME.'.'.HuazimClass::DATA_DOREZIMIT,
+                                        LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,
+                                        LibriClass::TABLE_NAME.'.'.LibriClass::VITI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI,
+                                        AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, LibriClass::TABLE_NAME.'.'.LibriClass::VITI)
+                ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID, HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_LIBRI)
+                ->join(AutoriClass::TABLE_NAME, AutoriClass::TABLE_NAME.'.'.AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
+                ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_KLIENT, $id)
+                ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::KTHYER, HuazimClass::I_PAKTHYER)
+                ->get();
+
+            return view('backend.klient.view')
+                ->with('klienti', $klienti)
+                ->with('librat', $librat)
+                ;
+        }
     }
 }

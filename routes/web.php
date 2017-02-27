@@ -48,6 +48,10 @@ Route::group(['middleware'=> 'isLogged'], function (){
         Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
         Route::get('/dashboard/klient/krijo', 'KlientController@create')->name('krijoKlient');
         Route::post('/dashboard/klient/ruaj', 'KlientController@ruaj')->name('ruajKlient');
+        Route::get('/dashboard/klient/shiko/{id}', 'KlientController@view')->name('shikoKlient');
+        Route::post('/dashboard/klient/shiko/kthe', 'LibriController@kthe')->name('ktheLibri');
+
+        Route::get('/dashboard/raporte', 'InventarController@raporte')->name('listRaporte');
 //        Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
 
     });
