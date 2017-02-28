@@ -20,7 +20,7 @@
 
                     <div class="form-group">
                         <label>Përshkrimi</label>
-                        <textarea name="description" class="form-control" rows="3" placeholder="Përshkrimi">{!! $libri->desc !!}</textarea>
+                        <textarea name="description" class="form-control" rows="3" >{!! $libri->desc !!}</textarea>
                     </div>
 
                     <div class="form-group">

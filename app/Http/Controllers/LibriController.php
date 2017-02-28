@@ -120,7 +120,7 @@ class LibriController extends Controller
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                 ->join(InventarClass::TABLE_NAME, InventarClass::ID_LIBRI, LibriClass::TABLE_NAME.'.'.LibriClass::ID)
-                ->where(LibriClass::TABLE_NAME.'pl.'.LibriClass::ID, $id)
+                ->where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $id)
                 ->first();
             $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)
@@ -133,8 +133,10 @@ class LibriController extends Controller
                 ->get();
             $zhanriLiber = array();
             foreach ($zhanriLibrit as $z){
-                array_push($zhanriLiber, $z);
+                array_push($zhanriLiber, $z->id_zhanri);
             }
+//            print_r($zhanriLiber);die();
+//            echo count($autor).' zhanri:'.count($zhanriLibrit);die();
             if (count($libri) > 0){
                 return view('backend.libri.libriEdit')
                     ->with('libri', $libri)

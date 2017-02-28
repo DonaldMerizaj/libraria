@@ -1,4 +1,3 @@
-
 @extends('layouts.prime')
 @section('main_container')
     <div class="row">
