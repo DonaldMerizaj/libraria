@@ -8,7 +8,7 @@
     </li>
 </ul>
 
-<div class="collapse navbar-collapse navbar-ex1-collapse">
+<div class=" collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
         <li class="active">
             <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
@@ -26,4 +26,14 @@
             {{--<a href="{!! URL::route('listUsers') !!}"><i class="fa fa-fw fa-users"></i> Përdoruesit </a>--}}
         {{--</li>--}}
     </ul>
+
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.navbar-ex1-collapse li').click(function() {
+            $(this).siblings('li').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>

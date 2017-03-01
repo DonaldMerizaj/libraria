@@ -1,3 +1,9 @@
 .validate-error {
     color: red;
 }
+
+
+.no-print{
+    display: none !important;
+}
+
