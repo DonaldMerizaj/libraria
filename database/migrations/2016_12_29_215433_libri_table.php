@@ -18,7 +18,7 @@ class LibriTable extends Migration
             $table->string('titulli');
             $table->integer('id_autor')->unsigned();
             $table->string('shtepi_botuese');
-            $table->dateTime('viti');
+            $table->string('viti');
             $table->string('desc');
             $table->integer('cmimi');
             $table->string('image');

@@ -17,60 +17,78 @@
                     <div class="form-group">
                         <label>Titulli</label>
                         <input type="text" name="title" value="{!! $libri->titulli !!}" class="form-control" placeholder="Titulli">
+                        <span class="validate-error"></span>
+
                     </div>
 
                     <div class="form-group">
                         <label>Përshkrimi</label>
                         <textarea name="description" class="form-control" rows="3" >{!! $libri->desc !!}</textarea>
+                        <span class="validate-error"></span>
+
                     </div>
 
+                    {{--{!! count($autor) !!}--}}
                     <div class="form-group">
                         <label>Autori</label>
+                        {{--{!! $libri->id_autor !!}--}}
                         <select name="autori" class="form-control select2 select2-hidden-accessible" data-placeholder="Zgjidh autor"
                                 style="width: 100%;" tabindex="-1" aria-hidden="true">
                             @foreach($autor as $a)
                                 @if($a->autor_id == $libri->id_autor)
                                     <option value="{!! $a->autor_id !!}" selected> {!! $a->emri !!} {!! $a->mbiemri !!} </option>
-                                @elsephp
+                                @else
                                     <option value="{!! $a->autor_id !!}" > {!! $a->emri !!} {!! $a->mbiemri !!} </option>
                                 @endif
                             @endforeach
                         </select>
+                        <span class="validate-error"></span>
+
                     </div>
 
                     <div class="form-group">
                         <label>Zhanri</label>
+                        {{--{!! count($zhanri) !!}--}}
+                        {{--{!! print_r($zhanriLibrit) !!}--}}
                         <select class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Zgjidh zhaner"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                style="width: 100%;" tabindex="-1" name="zhanri[]" aria-hidden="true">
                             @foreach($zhanri as $a)
-                                @if(in_array($a->libri_id, $zhanriLibrit))
-                                    <option value="{!! $a->libri_id !!}" selected> {!! $a->emri !!}</option>
+                                {{--<option value="a">{!! $a->zhanri_id !!}</option>--}}
+                                @if(in_array($a->zhanri_id, $zhanriLibrit))
+                                    <option value="{!! $a->zhanri_id !!}" selected> {!! $a->emri !!}</option>
                                 @else
-                                    <option value="{!! $a->libri_id !!}"> {!! $a->emri !!}</option>
+                                    <option value="{!! $a->zhanri_id !!}"> {!! $a->emri !!}</option>
                                 @endif
                             @endforeach
                         </select>
+                        <span class="validate-error"></span>
+
                     </div>
                 </div>
                 <div class="col-md-6">
+
                     <div class="form-group">
                         <label>Cmimi</label>
                         <input type="number" name="cmimi" value="{!! $libri->cmimi !!}" class="form-control" placeholder="Cmimi">
+                        <span class="validate-error"></span>
+
                     </div>
+
                     <div class="form-group">
                         <label>Viti Botimit</label>
 
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" value="{!! $libri->viti !!}" name="viti_botimit" class="form-control pull-right" id="datepicker">
-                            </div>
+                        <input type="number" value="{!! $libri->viti !!}" name="viti" class="form-control pull-right" >
+                        <span class="validate-error"></span>
+
                     </div>
+
                     <div class="form-group">
                         <label>Shtëpia Botuese</label>
                         <input type="text" name="shtepia" value="{!! $libri->shtepi_botuese !!}" class="form-control" placeholder="Shtëpia botimit">
+                        <span class="validate-error"></span>
+
                     </div>
+
                     <div class="form-group">
                         <label for="foto">Foto Librit</label>
                         <input type="file" id="foto">
@@ -99,7 +117,12 @@
                     autori: 'required',
                     zhanri: 'required',
                     cmimi: 'required',
-                    viti: 'required',
+                    viti: {
+                        required: true,
+                        number:true,
+                        minlength:4,
+                        maxlength:4
+                    },
                     shtepia: 'required'
                 },
                 messages: {
@@ -108,7 +131,12 @@
                     autori: 'Zgjidhni autorin',
                     zhanri: 'Zgjidhni zhanrin',
                     cmimi: 'Vendosni cmimin',
-                    viti: 'Zgjidhni vitin e botimit',
+                    viti: {
+                        required: 'Zgjidhni vitin e botimit',
+                        number: 'Viti duhet te jete numër',
+                        minlength: 'Duhet të ketë 4 shifra',
+                        maxlength: 'Duhet të ketë 4 shifra'
+                    },
                     shtepia: 'Vendosni shtepine botuese'
                 },
                 errorPlacement: function (error, element) {
@@ -119,9 +147,10 @@
             });
 
             //Date picker
-            $('#datepicker').datepicker({
-                autoclose: true
-            });
+//            $('#datepicker').datepicker({
+//                format: 'yyyy-mm-dd',
+//                autoclose: true
+//            });
 
             $("#krijo").click(function () {
                 $("#updateLiber").submit();

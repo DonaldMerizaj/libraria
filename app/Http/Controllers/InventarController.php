@@ -61,12 +61,20 @@ class InventarController extends Controller
                                     from inventar as i, libri as l
                                     where i.id_libri = l.libri_id and i.gjendje < 3');
 
+
+            $shitje = DB::select('SELECT SUM(cmimi) as total, COUNT(libri_id) as nr
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri
+                                       WHERE shitur = 1');
+//            echo $shitje[0]->total.'/'.$shitje[0]->nr;die();
             return view('backend.raporte')
                 ->with('librat', $inv)
                 ->with('huazim', $huazim)
                 ->with('klient', $klient)
                 ->with('raporti', $raporti)
                 ->with('sasia_nr', $sasia_nr)
+                ->with('shitje', $shitje)
                 ->with('libramin', $libramin)
                 ;
 //        }

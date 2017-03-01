@@ -116,8 +116,8 @@ class LibriController extends Controller
         if (isset($id) && is_numeric($id)){
             $libri = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,LibriClass::TABLE_NAME.'.'.LibriClass::ID,
                 LibriClass::TABLE_NAME.'.'.LibriClass::CMIMI, LibriClass::TABLE_NAME.'.'.LibriClass::SHTEPI_BOTUESE,
-                LibriClass::TABLE_NAME.'.'.LibriClass::VITI, AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI,LibriClass::TABLE_NAME.'.'.LibriClass::DESC,
-                AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
+                LibriClass::TABLE_NAME.'.'.LibriClass::VITI, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR,
+                LibriClass::TABLE_NAME.'.'.LibriClass::DESC, InventarClass::TABLE_NAME.'.'.InventarClass::GJENDJE)
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                 ->join(InventarClass::TABLE_NAME, InventarClass::ID_LIBRI, LibriClass::TABLE_NAME.'.'.LibriClass::ID)
                 ->where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $id)
@@ -125,18 +125,19 @@ class LibriController extends Controller
             $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
                 AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)
                 ->get();
+//            echo count($autor);die();
             $zhanri = ZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI, ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID)
                 ->get();
             $zhanriLibrit = LibriToZhanriModel::select(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_ZHANRI)
-                ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID,
-                    LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI)
+                ->where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI, $id)
                 ->get();
+
             $zhanriLiber = array();
             foreach ($zhanriLibrit as $z){
+                echo $z->id_zhanri;
                 array_push($zhanriLiber, $z->id_zhanri);
             }
-//            print_r($zhanriLiber);die();
-//            echo count($autor).' zhanri:'.count($zhanriLibrit);die();
+//print_r($zhanriLiber);die();
             if (count($libri) > 0){
                 return view('backend.libri.libriEdit')
                     ->with('libri', $libri)
@@ -163,14 +164,10 @@ class LibriController extends Controller
             $shtepia = htmlentities(trim($request->shtepia));
             $cmimi = htmlentities(trim($request->cmimi));
             $autori = $request->autori;
-            $date1 = str_replace('/', '-', $request->viti_botimit);
-            $viti = date('Y-m-d', strtotime($date1));
+            $viti = $request->viti;
 
-//            echo $request->viti.'..'.$date;die();
             $libri = LibriModel::where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $request->idlibri)->first();
 
-            $vitibotimit = date('Y-m-d', strtotime($libri->viti));
-//echo $date1.'.'.$viti.'.'.$vitibotimit;die();
             $fields = array();
             if ($title != $libri->titulli){
                 $fields = array_merge($fields,[
@@ -197,24 +194,72 @@ class LibriController extends Controller
                     'id_autor' => $autori
                 ]);
             }
-            if ($viti != $vitibotimit){
+            if ($viti != $libri->viti){
                 $fields = array_merge($fields,[
                     'viti' => $viti
                 ]);
             }
 
+            $x=0;
+            $zhanri = array();
+            if($request->zhanri != null){
+//                print_r($request->zhanri);die();
+                foreach($request->zhanri as $c){
+                    $zhanri[$x]= $c;
+                    $x++;
+                }
+            }
+//            print_r($zhanri);die();
+            $ltozh = LibriToZhanriModel::select(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_ZHANRI,
+                        LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID)
+                ->where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI, $request->idlibri)
+                ->get();
+//            echo print_r($ltozh[0]);die();
+            //shtuar
+            for ($i = 0; $i < count($zhanri); $i ++){
+                $exist = false;
+                for ($j = 0; $j < count($ltozh); $j++){
+                    if($zhanri[$i] == $ltozh[$j]->id_zhanri){
+                        $exist = true;
+                        break;
+                    }
+                }
+                if(!$exist)
+                {
+                    // insert new
+                    $newZhaner = new LibriToZhanriModel();
+                    $newZhaner->id_libri = $request->idlibri;
+                    $newZhaner->id_zhanri = $zhanri[$i];
+                    $newZhaner->save();
+                }
+            }
 
+            //fshire
+            for ($i = 0; $i < count($ltozh); $i ++){
+                $deleted = true;
+                for ($j = 0; $j < count($zhanri); $j++){
+                    if($ltozh[$i]->l_to_zh_id == $zhanri[$j]){
+                        $deleted = false;
+                        break;
+                    }
+                }
+                if($deleted)
+                {
+                    LibriToZhanriModel::where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID, $ltozh[$i]->l_to_zh_id)
+                        ->delete();
+                }
+            }
 
             LibriModel::where(LibriClass::TABLE_NAME.'.'.LibriClass::ID,
                                         $request->idlibri)
                         ->update($fields);
-
+//echo 1;die();
             DB::commit();
 
             return Redirect::route('listLibrat')->send();
         }catch (\Exception $e){
+            echo $e->getMessage().'//'.$e->getLine();die();
             DB::rollback();
-//            echo $e->getMessage();die();
             return Redirect::back()
                 ->withInput(Input::all())
                 ->withErrors($e->getMessage());
@@ -222,7 +267,6 @@ class LibriController extends Controller
     }
 
     public function huazo($id){
-
         if (isset($id) && is_numeric($id)){
             $libri = LibriModel::select(LibriClass::TABLE_NAME.'.'.LibriClass::TITULLI,LibriClass::TABLE_NAME.'.'.LibriClass::ID,
                 LibriClass::TABLE_NAME.'.'.LibriClass::CMIMI, LibriClass::TABLE_NAME.'.'.LibriClass::SHTEPI_BOTUESE,
@@ -231,11 +275,7 @@ class LibriController extends Controller
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                 ->where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $id)
                 ->first();
-//            $autor = AutorModel::select(AutoriClass::TABLE_NAME.'.'.AutoriClass::EMRI, AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI,
-//                AutoriClass::TABLE_NAME.'.'.AutoriClass::ID)
-//                ->get();
-//            $zhanri = ZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI, ZhanriClass::TABLE_NAME.'.'.ZhanriClass::ID)
-//                ->get();
+
             $zhanriLibrit = LibriToZhanriModel::select(ZhanriClass::TABLE_NAME.'.'.ZhanriClass::EMRI)
                 ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID,
                     LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI)
@@ -252,7 +292,6 @@ class LibriController extends Controller
                 return view('backend.libri.huazo')
                     ->with('libri', $libri)
                     ->with('klient', $klient)
-//                    ->with('zhanri', $zhanri)
                     ->with('zhanri', $zhanriLibrit)
                     ;
             }else{

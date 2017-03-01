@@ -11,11 +11,13 @@
 <div class=" collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
         <li class="active">
-            <a href=""><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
+            <a href="{!! URL::route('dashboard') !!}"><i class="fa fa-fw fa-dashboard"></i> Dashboard </a>
         </li>
+        @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
         <li class="">
             <a href="{!! URL::route('listRaporte') !!}"><i class="fa fa-fw fa-line-chart"></i> Raporte </a>
         </li>
+        @endif
         <li class="">
             <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-book"></i> Librat </a>
         </li>

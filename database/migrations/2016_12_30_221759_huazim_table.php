@@ -19,10 +19,10 @@ class HuazimTable extends Migration
             $table->integer('id_user')->unsigned();
             $table->integer('id_libri')->unsigned();
             $table->integer('sasia');
-            $table->dateTime('data_marrjes');
-            $table->dateTime('data_dorezimit');
+            $table->dateTime('data_marrjes')->nullable();
+            $table->dateTime('data_dorezimit')->nullable();
             $table->smallInteger('kthyer');//nese eshte kthyer ose jo (1/0)
-//            $table->integer('id_libri');
+
         });
 
         Schema::table('huazim', function (Blueprint $table){

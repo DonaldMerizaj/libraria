@@ -1,6 +1,9 @@
 .validate-error {
     color: red;
 }
+.custom-hide{
+    visibility: hidden;
+}
 
 
 .no-print{

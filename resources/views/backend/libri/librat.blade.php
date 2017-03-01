@@ -69,7 +69,7 @@
                                 <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
                                     <i class="fa fa-pencil"></i>
                                 </a>
-                                <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-info">
+                                <a href="#" class="btn btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
                                 <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">

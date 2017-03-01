@@ -18,22 +18,37 @@ class HuazimController extends Controller
             DB::beginTransaction();
 
             if (is_numeric($request->klientId) && is_numeric($request->libriId)){
-                $date1 = str_replace('/', '-', $request->dataMarrjes);
-                $marrje = date('Y-m-d', strtotime($date1));
+                if ($request->dataMarrjes == '' || $request->dataMarrjes == null){
+                    $new = new HuazimModel();
+                    $new->id_klient = $request->klientId;
+                    $new->id_user = Utils::getUserId();
+                    $new->id_libri = $request->libriId;
+                    $new->sasia = 1;
+//                    $new->data_marrjes = time();
+//                    $new->data_dorezimit = $kthim;
+                    $new->kthyer = 0;
+                    $new->shitur = 1;
+                    $new->save();
 
-                $date2 = str_replace('/', '-', $request->dataKthimit);
-                $kthim = date('Y-m-d', strtotime($date2));
+                }else{
+                    $date1 = str_replace('/', '-', $request->dataMarrjes);
+                    $marrje = date('Y-m-d', strtotime($date1));
+
+                    $date2 = str_replace('/', '-', $request->dataKthimit);
+                    $kthim = date('Y-m-d', strtotime($date2));
 
 
-                $new = new HuazimModel();
-                $new->id_klient = $request->klientId;
-                $new->id_user = Utils::getUserId();
-                $new->id_libri = $request->libriId;
-                $new->sasia = 1;
-                $new->data_marrjes = $marrje;
-                $new->data_dorezimit = $kthim;
-                $new->kthyer = 0;
-                $new->save();
+                    $new = new HuazimModel();
+                    $new->id_klient = $request->klientId;
+                    $new->id_user = Utils::getUserId();
+                    $new->id_libri = $request->libriId;
+                    $new->sasia = 1;
+                    $new->data_marrjes = $marrje;
+                    $new->data_dorezimit = $kthim;
+                    $new->kthyer = 0;
+                    $new->shitur = 0;
+                    $new->save();
+                }
 
                 $inventar = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
                     ->first();
@@ -52,7 +67,6 @@ class HuazimController extends Controller
                     ->withInput(Input::all())
                     ->withErrors('Ndodhi nje gabim!');
             }
-
         }catch (\Exception $e){
             DB::rollback();
             return Redirect::back()

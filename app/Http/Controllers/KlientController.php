@@ -76,6 +76,7 @@ class KlientController extends Controller
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::TABLE_NAME.'.'.AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
                 ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_KLIENT, $id)
                 ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::KTHYER, HuazimClass::I_PAKTHYER)
+                ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::SHITUR, HuazimClass::I_PAKTHYER)
                 ->get();
 
             return view('backend.klient.view')

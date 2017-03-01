@@ -73,7 +73,7 @@
                             <span class="validate-error"></span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="dataHuazimit">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Data marrjes</label>
@@ -98,13 +98,14 @@
                                 <span class="validate-error"></span>
                             </div>
                         </div>
-                        <input type="hidden" id="klientId" name="klientId" value="">
-                        <input type="hidden" id="libriId" name="libriId" value="{!! $libri->libri_id !!}">
-
                     </div>
+                    <input type="hidden" id="klientId" name="klientId" value="">
+                    <input type="hidden" id="libriId" name="libriId" value="{!! $libri->libri_id !!}">
                 </div>
                     <div class="col-md-2">
                         <button type="button" id="krijo" class="btn btn-success" style="margin-bottom: 32px;" >Huazo</button>
+                        <button type="button" id="shit" class="btn btn-info" style="margin-bottom: 32px;" >
+                            <i class="fa fa-money"></i> Shit</button>
                     </div>
                 {!! Form::close() !!}
                 <br>
@@ -150,7 +151,7 @@
                                         ->where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
                                             $l->klient_id)
 //                                        ->where(\App\Http\Controllers\Classes\HuazimClass::KTHYER, \App\Http\Controllers\Classes\HuazimClass::I_PAKTHYER)
-                                        ->where(\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI, $libri->libri_id)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI, $l->libri_id)
                                         ->get();
                                     if (count($librat) > 0){
                                             echo '';
@@ -159,7 +160,6 @@
                                                     <i class="fa fa-plus"></i>
                                                 </button>';
                                     }
-
 
                                     ?>
 
@@ -194,6 +194,19 @@
             });
 
             $('.huazoLibrin').click(function () {
+                $('#dataHuazimit').removeClass('custom-hide');
+                var a = $(this);
+                var emri = $(a).parent().parent().find('.emriKlient').text();
+                var mbiemri = $(a).parent().parent().find('.mbiemriKlient').text();
+                var id = $(a).data("id");
+
+                $('#emriklient').val(emri);
+                $('#mbiemriklient').val(mbiemri);
+                $('#klientId').val(id);
+            });
+
+            $('.shitLibrin').click(function () {
+                $('#dataHuazimit').addClass('custom-hide');
                 var a = $(this);
                 var emri = $(a).parent().parent().find('.emriKlient').text();
                 var mbiemri = $(a).parent().parent().find('.mbiemriKlient').text();
@@ -233,14 +246,25 @@
                 var marrja = $("input[name='dataMarrjes']").val();
                 var kthimi = $("input[name='dataKthimit']").val();
                 if ( emri == ''){
-//                    alert(marrja)
                     $('#emriklient').parent().parent().find('.validate-error').text('Zgjidhni klientin');
                 }else
                     if (marrja == '' || kthimi == '') {
                         $('#emriklient').parent().parent().find('.validate-error').text('Zgjidhni datat');
                     }else{
                     $('#emriklient').parent().parent().find('.validate-error').text('');
+//                    $('#emriklient').parent().parent().find('.validate-error').text('');
+                    $("#huazoLiber").submit();
+                }
+            });
+
+            $("#shit").click(function () {
+
+                var emri = $('#klientId').val();
+                if ( emri == ''){
+                    $('#emriklient').parent().parent().find('.validate-error').text('Zgjidhni klientin');
+                }else{
                     $('#emriklient').parent().parent().find('.validate-error').text('');
+//                    $('#emriklient').parent().parent().find('.validate-error').text('');
                     $("#huazoLiber").submit();
                 }
             });

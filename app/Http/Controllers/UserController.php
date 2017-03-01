@@ -9,6 +9,7 @@ use App\Models\LoginModel;
 use App\Models\UserModel;
 use DB;
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -68,7 +69,41 @@ class UserController extends Controller
 
     }
     public function index(){
-        return view('backend.home');
+        $username = LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getUserId())->first()->username;
+
+        //librat qe kane kaluar afatin
+        $jashteAfati = DB::select('SELECT titulli 
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri 
+                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0');
+        $huazuar = DB::select('SELECT titulli 
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri ');
+//                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
+
+        $raporti = round((count($jashteAfati)/count($huazuar))*100);
+        $sasia_nr = count($jashteAfati);
+        //librat me pak se 3 ne gjendje
+        $libramin = DB::select('SELECT l.titulli, l.cmimi
+                                    from inventar as i, libri as l
+                                    where i.id_libri = l.libri_id and i.gjendje < 3');
+
+
+        $shitje = DB::select('SELECT SUM(cmimi) as total, COUNT(libri_id) as nr
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri
+                                       WHERE shitur = 1');
+//        echo Utils::getUserId();die();
+
+        return view('backend.home')
+            ->with('raporti', $raporti)
+            ->with('sasia_nr', $sasia_nr)
+            ->with('shitje', $shitje)
+            ->with('libramin', $libramin)
+            ->with('username', $username);
     }
 
     public function pass(){

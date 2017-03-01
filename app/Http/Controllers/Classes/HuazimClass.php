@@ -20,6 +20,7 @@ class HuazimClass
     const DATA_MARRJES = 'data_marrjes';
     const DATA_DOREZIMIT = 'data_dorezimit';
     const KTHYER = 'kthyer';
+    const SHITUR = 'shitur';
 
     const I_KTHYER = 1;
     const I_PAKTHYER = 0;

@@ -55,12 +55,12 @@
                             <td>{!! $l->cmimi !!}</td>
                             <td>{!! $l->gjendje !!}</td>
                             <td>
-                                <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
+                                <a href="#" class="btn btn-default">
                                     <i class="fa fa-pencil"></i>
                                 </a>
-                                <a href="{!! URL::route('viewLibri', array($l->libri_id)) !!}" class="btn btn-info">
-                                    <i class="fa fa-eye"></i>
-                                </a>
+                                {{--<a href="#" class="btn btn-info">--}}
+                                    {{--<i class="fa fa-eye"></i>--}}
+                                {{--</a>--}}
                                 <button data-id="{!! $l->libri_id !!}" class="huazoLibrin btn btn-warning">
                                     <i class="fa fa-money"></i>
                                 </button>
