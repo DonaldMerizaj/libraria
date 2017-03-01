@@ -30,7 +30,7 @@ class InventarController extends Controller
                                     from (
                                         SELECT SUM(sasia) as sasia, h.id_libri as libriId
                                         FROM huazim as h
-                                        WHERE datediff(CURRENT_DATE(),h.data_marrjes)>90
+                                        WHERE datediff(CURRENT_DATE(),h.data_marrjes)<90
                                         GROUP BY (h.id_libri)
                                         ) as 
                                         huazimi
@@ -51,11 +51,11 @@ class InventarController extends Controller
             $huazuar = DB::select('SELECT titulli 
                                         FROM libri as l 
                                         JOIN huazim as h 
-                                          ON l.libri_id=h.id_libri 
-                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
+                                          ON l.libri_id=h.id_libri ');
+//                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
 
-            $raporti = round(((count($jashteAfati)/count($huazuar))*100),2 );
-
+            $raporti = round((count($jashteAfati)/count($huazuar))*100);
+            $sasia_nr = count($jashteAfati);
             //librat me pak se 3 ne gjendje
             $libramin = DB::select('SELECT l.titulli, l.cmimi
                                     from inventar as i, libri as l
@@ -66,6 +66,7 @@ class InventarController extends Controller
                 ->with('huazim', $huazim)
                 ->with('klient', $klient)
                 ->with('raporti', $raporti)
+                ->with('sasia_nr', $sasia_nr)
                 ->with('libramin', $libramin)
                 ;
 //        }

@@ -60,7 +60,7 @@ class LibriController extends Controller
             $autori = is_numeric($request->autori) ? $request->autori : 0;
             $date = str_replace('/', '-', $request->viti);
             $viti = date('Y-m-d', strtotime($date));
-//            echo $date;die();
+//            echo $viti;die();
             if ($request->hasFile('foto')){
 
                 if (Input::file('foto')->isValid()){
@@ -69,7 +69,7 @@ class LibriController extends Controller
                     return Redirect::back()->withInput(all())->withErrors('Foto nuk eshte e vlefshme!');
                 }
             }else{
-                echo 1;die();
+//                echo 1;die();
                 $image = '';
             }
 
@@ -150,6 +150,74 @@ class LibriController extends Controller
 
         }else{
             abort(404);
+        }
+    }
+
+    public function update(Request $request){
+        try{
+
+            DB::beginTransaction();
+
+            $title = htmlentities(trim($request->title));
+            $desc = htmlentities(trim($request->description));
+            $shtepia = htmlentities(trim($request->shtepia));
+            $cmimi = htmlentities(trim($request->cmimi));
+            $autori = $request->autori;
+            $date1 = str_replace('/', '-', $request->viti_botimit);
+            $viti = date('Y-m-d', strtotime($date1));
+
+//            echo $request->viti.'..'.$date;die();
+            $libri = LibriModel::where(LibriClass::TABLE_NAME.'.'.LibriClass::ID, $request->idlibri)->first();
+
+            $vitibotimit = date('Y-m-d', strtotime($libri->viti));
+//echo $date1.'.'.$viti.'.'.$vitibotimit;die();
+            $fields = array();
+            if ($title != $libri->titulli){
+                $fields = array_merge($fields,[
+                    'titulli' => $title
+                ]);
+            }
+            if ($desc != $libri->desc){
+                $fields = array_merge($fields,[
+                    'desc' => $desc
+                ]);
+            }
+            if ($shtepia != $libri->shtepi_botuese){
+                $fields = array_merge($fields,[
+                    'shtepi_botuese' => $shtepia
+                ]);
+            }
+            if ($cmimi != $libri->cmimi){
+                $fields = array_merge($fields,[
+                    'cmimi' => $cmimi
+                ]);
+            }
+            if ($autori != $libri->autori){
+                $fields = array_merge($fields,[
+                    'id_autor' => $autori
+                ]);
+            }
+            if ($viti != $vitibotimit){
+                $fields = array_merge($fields,[
+                    'viti' => $viti
+                ]);
+            }
+
+
+
+            LibriModel::where(LibriClass::TABLE_NAME.'.'.LibriClass::ID,
+                                        $request->idlibri)
+                        ->update($fields);
+
+            DB::commit();
+
+            return Redirect::route('listLibrat')->send();
+        }catch (\Exception $e){
+            DB::rollback();
+//            echo $e->getMessage();die();
+            return Redirect::back()
+                ->withInput(Input::all())
+                ->withErrors($e->getMessage());
         }
     }
 
@@ -242,3 +310,5 @@ class LibriController extends Controller
     }
 
 }
+
+

@@ -95,7 +95,6 @@
                             <span class="validate-error"></span>
                         </div>
                     </div>
-
                     <div class="col-sm-1">
                         <button type="button" id="krijo" class="btn btn-success">Krijo</button>
                     </div>

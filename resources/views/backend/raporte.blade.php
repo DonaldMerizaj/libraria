@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <h3 style="text-align: center; width: 50%;" class="box-title">Librat jashte afatit</h3>
-                        <h4 style="text-align: center; width: 50%; background-color: #dFb5b4;"> {!! $raporti !!} %</h4>
+                        <h4 style="text-align: center; width: 50%; background-color: #dFb5b4;">{!! $sasia_nr !!} libra = {!! $raporti !!} %  </h4>
                     </div>
                 </div>
                 <hr>
