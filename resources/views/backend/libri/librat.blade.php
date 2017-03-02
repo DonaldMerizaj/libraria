@@ -85,14 +85,14 @@
                                 <a href="#" class="btn btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                    @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))
-                                        <a href="#" class="btn btn-default">
-                                            <i class="fa fa-money"></i>
-                                    @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT)
-                                        @else
-                                    <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
-                                    <i class="fa fa-money"></i>
+                                    @if(($l->gjendje>0))
+                                        @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT )
+
+                                        @elseif(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
+                                        <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
+                                        <i class="fa fa-money"></i>
                                         @endif
+                                    @endif
                                 </a>
                             </td>
                         </tr>
