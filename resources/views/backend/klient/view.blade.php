@@ -32,8 +32,14 @@
                     <div class="col-md-6">
                         <ul style="list-style: none;">
                             @foreach($librat as $l)
+
                                 <li>
-                                    <h4>" {!! $l->titulli !!} " - {!! $l->emri !!} {!! $l->mbiemri !!} ____ Afati i kthimit: {!! date('d/M/Y', strtotime($l->data_dorezimit)) !!}</h4>
+                                        @if( date('d/M/Y', strtotime($l->data_dorezimit)) < date('d/m/Y'))
+                                    <h4 style="background-color: #FF7043; width: 80%;">
+                                        @else
+                                            <h4>
+                                                @endif
+                                                " {!! $l->titulli !!} " - {!! $l->emri !!} {!! $l->mbiemri !!} ____ Afati i kthimit: {!! date('d/M/Y', strtotime($l->data_dorezimit)) !!}</h4>
                                     <button data-id="{!! $l->huazim_id !!}" class="kthe btn btn-info"><i class="fa fa-refresh"></i> Kthe librin</button>
                                 </li>
                             @endforeach

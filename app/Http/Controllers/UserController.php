@@ -69,41 +69,75 @@ class UserController extends Controller
 
     }
     public function index(){
-        $username = LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getUserId())->first()->username;
+        $username = LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
 
-        //librat qe kane kaluar afatin
-        $jashteAfati = DB::select('SELECT titulli 
+        if (Utils::getRole()<= LoginClass::PUNONJES){
+            //librat qe kane kaluar afatin
+            $jashteAfati = DB::select('SELECT titulli 
                                         FROM libri as l 
                                         JOIN huazim as h 
                                           ON l.libri_id=h.id_libri 
-                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0');
-        $huazuar = DB::select('SELECT titulli 
+                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0 AND h.shitur = 0');
+            $huazuar = DB::select('SELECT titulli 
                                         FROM libri as l 
                                         JOIN huazim as h 
-                                          ON l.libri_id=h.id_libri ');
+                                          ON l.libri_id=h.id_libri 
+                                       where h.shitur = 0 and h.kthyer=0');
 //                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
 
-        $raporti = round((count($jashteAfati)/count($huazuar))*100);
+            $raporti = round((count($jashteAfati) / count($huazuar)) * 100);
+        }else{
+            $jashteAfati = DB::select('SELECT titulli 
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri 
+                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0 AND h.shitur = 0 AND h.id_klient = ?', array(Utils::getKlientId()));
+
+//            $huazuar = DB::select('SELECT titulli
+//                                        FROM libri as l
+//                                        JOIN huazim as h
+//                                          ON l.libri_id=h.id_libri
+//                                          WHERE h.id_user');
+//                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
+
+//            $raporti = round((count($jashteAfati) / count($huazuar)) * 100);
+        }
         $sasia_nr = count($jashteAfati);
-        //librat me pak se 3 ne gjendje
-        $libramin = DB::select('SELECT l.titulli, l.cmimi
+        if (Utils::getRole()<= LoginClass::PUNONJES) {
+            //librat me pak se 3 ne gjendje
+            $libramin = DB::select('SELECT l.titulli, l.cmimi
                                     from inventar as i, libri as l
                                     where i.id_libri = l.libri_id and i.gjendje < 3');
 
 
-        $shitje = DB::select('SELECT SUM(cmimi) as total, COUNT(libri_id) as nr
+            $shitje = DB::select('SELECT SUM(cmimi) as total, COUNT(libri_id) as nr
                                         FROM libri as l 
                                         JOIN huazim as h 
                                           ON l.libri_id=h.id_libri
                                        WHERE shitur = 1');
+        }else{
+            $shitje = DB::select('SELECT SUM(cmimi) as total, COUNT(libri_id) as nr
+                                        FROM libri as l 
+                                        JOIN huazim as h 
+                                          ON l.libri_id=h.id_libri
+                                       WHERE h.shitur = 1 AND h.kthyer=1 and h.id_klient = ?', array(Utils::getKlientId()));
+        }
 //        echo Utils::getUserId();die();
 
-        return view('backend.home')
-            ->with('raporti', $raporti)
-            ->with('sasia_nr', $sasia_nr)
-            ->with('shitje', $shitje)
-            ->with('libramin', $libramin)
-            ->with('username', $username);
+        if (Utils::getRole() <= LoginClass::PUNONJES) {
+
+            return view('backend.home')
+                ->with('raporti', $raporti)
+                ->with('sasia_nr', $sasia_nr)
+                ->with('shitje', $shitje)
+                ->with('libramin', $libramin)
+                ->with('username', $username);
+        }else{
+            return view('backend.home')
+                ->with('sasia_nr', $sasia_nr)
+                ->with('shitje', $shitje)
+                ->with('username', $username);
+        }
     }
 
     public function pass(){

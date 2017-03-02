@@ -15,11 +15,14 @@
             </div>
 
             <div class="box-body">
-                <div class="col-sm-10"></div>
-                <div class="col-sm-2">
-                    <a href="{!! URL::route('krijoLiber') !!}" class="btn btn-success">
-                        <i class="fa fa-plus"></i> Krijo
-                    </a>
+                <div class="row">
+                    @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
+                    <div class="col-sm-2" style="margin-bottom: 16px;">
+                        <a href="{!! URL::route('krijoLiber') !!}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Krijo
+                        </a>
+                    </div>
+                        @endif
                 </div>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -29,7 +32,9 @@
                             <th>ZHANRI</th>
                             <th>VITI</th>
                             <th>CMIMI</th>
+                            @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
                             <th>SASIA GJENDJE</th>
+                            @endif
                             <th>VEPRIME</th>
                         </tr>
                     </thead>
@@ -64,16 +69,30 @@
                             </td>
                             <td>{!! $l->viti !!}</td>
                             <td>{!! $l->cmimi !!}</td>
-                            <td>{!! $l->gjendje !!}</td>
+                            @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))
+                                <td>Ka gjendje</td>
+                                @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje==0))
+                                    <td>Nuk ka gjendje</td>
+                                @else
+                                <td>{!! $l->gjendje !!}</td>
+                            @endif
                             <td>
+                                @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::ADMIN)
                                 <a href="{!! URL::route('editLibri', array($l->libri_id)) !!}" class="btn btn-default">
                                     <i class="fa fa-pencil"></i>
                                 </a>
+                                @endif
                                 <a href="#" class="btn btn-info">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
+                                    @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT && ($l->gjendje>0))
+                                        <a href="#" class="btn btn-default">
+                                            <i class="fa fa-money"></i>
+                                    @elseif(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT)
+                                        @else
+                                    <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
                                     <i class="fa fa-money"></i>
+                                        @endif
                                 </a>
                             </td>
                         </tr>

@@ -49,7 +49,7 @@
 
                     <div class="form-group">
                         <label>Zhanri</label>
-                        <select name="zhanri[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Zgjidh zhaner"
+                        <select class="form-control select2 select2-hidden-accessible" name="zhanri[]" multiple="" data-placeholder="Zgjidh zhaner"
                                 style="width: 100%;" tabindex="-1" aria-hidden="true">
                             @foreach($zhanri as $a)
                                 <option value="{!! $a->zhanri_id !!}">{!! $a->emri !!}</option>
@@ -66,13 +66,11 @@
                     </div>
                     <div class="form-group">
                         <label>Viti Botimit</label>
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" value="{!! old('viti') !!}" name="viti" class="form-control pull-right" id="datepicker">
+                            <div class="">
+                                <input type="number" value="{!! old('viti') !!}" name="viti" class="form-control pull-right">
+                                <span class="validate-error"></span>
                             </div>
-                        <span class="validate-error"></span>
+
                     </div>
                     <div class="form-group">
                         <label>Shtëpia Botuese</label>
@@ -95,10 +93,12 @@
                             <span class="validate-error"></span>
                         </div>
                     </div>
-                    <div class="col-sm-1">
-                        <button type="button" id="krijo" class="btn btn-success">Krijo</button>
-                    </div>
                 </div>
+            <div class="row">
+                <div class="col-md-1" style="margin-left: 16px;">
+                    <button type="button" id="krijo" class="btn btn-success">Krijo</button>
+                </div>
+            </div>
                 {!! Form::close() !!}
             </div>
         </div>
@@ -114,7 +114,12 @@
                     autori: 'required',
                     zhanri: 'required',
                     cmimi: 'required',
-                    viti: 'required',
+                    viti: {
+                        required: true,
+                        number:true,
+                        minlength:4,
+                        maxlength:4
+                    },
                     shtepia: 'required'
                 },
                 messages: {
@@ -123,7 +128,12 @@
                     autori: 'Zgjidhni autorin',
                     zhanri: 'Zgjidhni zhanrin',
                     cmimi: 'Vendosni cmimin',
-                    viti: 'Zgjidhni vitin e botimit',
+                    viti: {
+                        required: 'Zgjidhni vitin e botimit',
+                        number: 'Viti duhet te jete numër',
+                        minlength: 'Duhet të ketë 4 shifra',
+                        maxlength: 'Duhet të ketë 4 shifra'
+                    },
                     shtepia: 'Vendosni shtepine botuese'
                 },
                 errorPlacement: function (error, element) {
@@ -134,10 +144,10 @@
             });
 
             //Date picker
-            $('#datepicker').datepicker({
-                format: 'dd/mm/yyyy',
-                autoclose: true
-            });
+//            $('#datepicker').datepicker({
+//                format: 'dd/mm/yyyy',
+//                autoclose: true
+//            });
 
             $("#krijo").click(function () {
                 $("#krijoLiber").submit();

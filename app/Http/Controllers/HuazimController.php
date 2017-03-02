@@ -26,7 +26,7 @@ class HuazimController extends Controller
                     $new->sasia = 1;
 //                    $new->data_marrjes = time();
 //                    $new->data_dorezimit = $kthim;
-                    $new->kthyer = 0;
+                    $new->kthyer = 1;
                     $new->shitur = 1;
                     $new->save();
 

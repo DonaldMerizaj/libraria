@@ -142,7 +142,7 @@
                                     ?>
                                 </td>
                                 <td>
-                                    <a href="{!! URL::route('editLibri', array($l->klient_id)) !!}" class="btn btn-default">
+                                    <a href="{!! URL::route('shikoKlient', array($l->klient_id)) !!}" class="btn btn-default">
                                         <i class="fa fa-pencil"></i>
                                     </a>
 
@@ -151,7 +151,7 @@
                                         ->where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_KLIENT,
                                             $l->klient_id)
 //                                        ->where(\App\Http\Controllers\Classes\HuazimClass::KTHYER, \App\Http\Controllers\Classes\HuazimClass::I_PAKTHYER)
-                                        ->where(\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI, $l->libri_id)
+                                        ->where(\App\Http\Controllers\Classes\HuazimClass::TABLE_NAME.'.'.\App\Http\Controllers\Classes\HuazimClass::ID_LIBRI, $libri->libri_id)
                                         ->get();
                                     if (count($librat) > 0){
                                             echo '';

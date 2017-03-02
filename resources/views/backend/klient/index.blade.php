@@ -15,12 +15,14 @@
             </div>
 
             <div class="box-body">
-                <div class="col-sm-10"></div>
-                <div class="col-sm-2">
+                <div class="row">
+                <div class="col-sm-2" style="margin-bottom: 16px;">
                     <a href="{!! URL::route('krijoKlient') !!}" class="btn btn-success">
                         <i class="fa fa-plus"></i> Krijo
                     </a>
                 </div>
+                </div>
+            <div class="row">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -28,7 +30,7 @@
                         <th>MBIEMRI</th>
                         <th>EMAIL</th>
                         <th>CEL</th>
-                        <th>NR. LIBRAVE</th>
+                        <th>NR. LIBRAVE TE HUAZUAR</th>
                         <th>VEPRIME</th>
                     </tr>
                     </thead>

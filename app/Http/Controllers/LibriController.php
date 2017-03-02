@@ -58,8 +58,8 @@ class LibriController extends Controller
             $shtepia = htmlentities(trim($request->shtepia));
             $cmimi = htmlentities(trim($request->cmimi));
             $autori = is_numeric($request->autori) ? $request->autori : 0;
-            $date = str_replace('/', '-', $request->viti);
-            $viti = date('Y-m-d', strtotime($date));
+            $viti = $request->viti;
+
 //            echo $viti;die();
             if ($request->hasFile('foto')){
 
@@ -84,15 +84,20 @@ class LibriController extends Controller
             $new->save();
 
             $lastId = DB::getPdo()->lastInsertId();
+//print_r($request->zhanri);die();
+            if ($request->zhanri != null) {
+                foreach ($request->zhanri as $z) {
 
-
-            foreach ($request->zhanri as $z){
-
-                $newZhaner = new LibriToZhanriModel();
-                $newZhaner->id_libri = $lastId;
-                $newZhaner->id_zhanri = $z;
-                $newZhaner->save();
-//                echo $z;
+                    $newZhaner = new LibriToZhanriModel();
+                    $newZhaner->id_libri = $lastId;
+                    $newZhaner->id_zhanri = $z;
+                    $newZhaner->save();
+            //                echo $z;
+                }
+            }else{
+                return Redirect::back()
+                    ->withInput(Input::all())
+                    ->withErrors("Zgjidhni zhanrin e librit!");
             }
 //echo 'a';die();
             $newInv = new InventarModel();
@@ -202,52 +207,56 @@ class LibriController extends Controller
 
             $x=0;
             $zhanri = array();
-            if($request->zhanri != null){
+            if($request->zhanri != null) {
 //                print_r($request->zhanri);die();
-                foreach($request->zhanri as $c){
-                    $zhanri[$x]= $c;
+
+                foreach ($request->zhanri as $c) {
+                    $zhanri[$x] = $c;
                     $x++;
                 }
-            }
-//            print_r($zhanri);die();
-            $ltozh = LibriToZhanriModel::select(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_ZHANRI,
-                        LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID)
-                ->where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID_LIBRI, $request->idlibri)
-                ->get();
-//            echo print_r($ltozh[0]);die();
-            //shtuar
-            for ($i = 0; $i < count($zhanri); $i ++){
-                $exist = false;
-                for ($j = 0; $j < count($ltozh); $j++){
-                    if($zhanri[$i] == $ltozh[$j]->id_zhanri){
-                        $exist = true;
-                        break;
-                    }
-                }
-                if(!$exist)
-                {
-                    // insert new
-                    $newZhaner = new LibriToZhanriModel();
-                    $newZhaner->id_libri = $request->idlibri;
-                    $newZhaner->id_zhanri = $zhanri[$i];
-                    $newZhaner->save();
-                }
-            }
 
-            //fshire
-            for ($i = 0; $i < count($ltozh); $i ++){
-                $deleted = true;
-                for ($j = 0; $j < count($zhanri); $j++){
-                    if($ltozh[$i]->l_to_zh_id == $zhanri[$j]){
-                        $deleted = false;
-                        break;
+//            print_r($zhanri);die();
+                $ltozh = LibriToZhanriModel::select(LibriToZhanriClass::TABLE_NAME . '.' . LibriToZhanriClass::ID_ZHANRI,
+                    LibriToZhanriClass::TABLE_NAME . '.' . LibriToZhanriClass::ID)
+                    ->where(LibriToZhanriClass::TABLE_NAME . '.' . LibriToZhanriClass::ID_LIBRI, $request->idlibri)
+                    ->get();
+//            echo print_r($ltozh[0]);die();
+                //shtuar
+                for ($i = 0; $i < count($zhanri); $i++) {
+                    $exist = false;
+                    for ($j = 0; $j < count($ltozh); $j++) {
+                        if ($zhanri[$i] == $ltozh[$j]->id_zhanri) {
+                            $exist = true;
+                            break;
+                        }
+                    }
+                    if (!$exist) {
+                        // insert new
+                        $newZhaner = new LibriToZhanriModel();
+                        $newZhaner->id_libri = $request->idlibri;
+                        $newZhaner->id_zhanri = $zhanri[$i];
+                        $newZhaner->save();
                     }
                 }
-                if($deleted)
-                {
-                    LibriToZhanriModel::where(LibriToZhanriClass::TABLE_NAME.'.'.LibriToZhanriClass::ID, $ltozh[$i]->l_to_zh_id)
-                        ->delete();
+
+                //fshire
+                for ($i = 0; $i < count($ltozh); $i++) {
+                    $deleted = true;
+                    for ($j = 0; $j < count($zhanri); $j++) {
+                        if ($ltozh[$i]->id_zhanri == $zhanri[$j]) {
+                            $deleted = false;
+                            break;
+                        }
+                    }
+                    if ($deleted) {
+                        LibriToZhanriModel::where(LibriToZhanriClass::TABLE_NAME . '.' . LibriToZhanriClass::ID, $ltozh[$i]->l_to_zh_id)
+                            ->delete();
+                    }
                 }
+            }else{
+                return Redirect::back()
+                    ->withInput(Input::all())
+                    ->withErrors('Zgjidhni zhanrin');
             }
 
             LibriModel::where(LibriClass::TABLE_NAME.'.'.LibriClass::ID,

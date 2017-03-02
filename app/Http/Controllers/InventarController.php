@@ -47,11 +47,12 @@ class InventarController extends Controller
                                         FROM libri as l 
                                         JOIN huazim as h 
                                           ON l.libri_id=h.id_libri 
-                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0');
+                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=0 AND h.shitur = 0');
             $huazuar = DB::select('SELECT titulli 
                                         FROM libri as l 
                                         JOIN huazim as h 
-                                          ON l.libri_id=h.id_libri ');
+                                          ON l.libri_id=h.id_libri 
+                                          where h.shitur = 0 and h.kthyer=0');
 //                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
 
             $raporti = round((count($jashteAfati)/count($huazuar))*100);

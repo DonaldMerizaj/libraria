@@ -9,6 +9,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Controllers\Classes\KlientClass;
+use App\Http\Controllers\Classes\LoginClass;
+use App\Http\Controllers\Classes\UserClass;
+use App\Models\KlientModel;
+use App\Models\LoginModel;
+use App\Models\UserModel;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
@@ -25,6 +31,14 @@ class Utils
         Session::save();
     }
 
+    public static function getUsername(){
+        return LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
+    }
+
+    public static function getKlientId(){
+        return KlientModel::where(KlientClass::TABLE_NAME.'.'.KlientClass::LOGIN, Utils::getLoginId())->first()->klient_id;
+
+    }
     public static function isLogged() {
         if (Session::has(self::SESSION_USER_ID)){
             return true;
@@ -42,7 +56,7 @@ class Utils
         return Session::get(self::SESSION_ROLE);
     }
 
-    public static function getUserId()
+    public static function getLoginId()
     {
         return Session::get(self::SESSION_USER_ID);
     }
