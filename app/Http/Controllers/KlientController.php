@@ -65,7 +65,7 @@ class KlientController extends Controller
             $klienti = KlientModel::select(KlientClass::TABLE_NAME.'.'.KlientClass::ID,KlientClass::TABLE_NAME.'.'.KlientClass::EMRI,
                 KlientClass::TABLE_NAME.'.'.KlientClass::MBIEMRI, KlientClass::TABLE_NAME.'.'.KlientClass::EMAIL,
                 KlientClass::TABLE_NAME.'.'.KlientClass::CEL )
-                ->where(KlientClass::TABLE_NAME.'.'.KlientClass::ID, Utils::getKlientId())
+                ->where(KlientClass::TABLE_NAME.'.'.KlientClass::ID, $id)
                 ->first();
 
             $librat = HuazimModel::select(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID, HuazimClass::TABLE_NAME.'.'.HuazimClass::DATA_DOREZIMIT,
@@ -74,7 +74,7 @@ class KlientController extends Controller
                                         AutoriClass::TABLE_NAME.'.'.AutoriClass::MBIEMRI, LibriClass::TABLE_NAME.'.'.LibriClass::VITI)
                 ->join(LibriClass::TABLE_NAME, LibriClass::TABLE_NAME.'.'.LibriClass::ID, HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_LIBRI)
                 ->join(AutoriClass::TABLE_NAME, AutoriClass::TABLE_NAME.'.'.AutoriClass::ID, LibriClass::TABLE_NAME.'.'.LibriClass::ID_AUTOR)
-                ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_KLIENT, Utils::getKlientId())
+                ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::ID_KLIENT, $id)
                 ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::KTHYER, HuazimClass::I_PAKTHYER)
                 ->where(HuazimClass::TABLE_NAME.'.'.HuazimClass::SHITUR, 0)
                 ->get();

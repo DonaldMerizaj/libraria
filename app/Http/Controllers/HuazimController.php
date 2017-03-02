@@ -40,7 +40,7 @@ class HuazimController extends Controller
 
                     $new = new HuazimModel();
                     $new->id_klient = $request->klientId;
-                    $new->id_user = Utils::getUserId();
+                    $new->id_user = Utils::getLoginId();
                     $new->id_libri = $request->libriId;
                     $new->sasia = 1;
                     $new->data_marrjes = $marrje;

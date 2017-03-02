@@ -34,8 +34,12 @@ class Utils
     public static function getUsername(){
         return LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
     }
+public static function getUserId(){
+        return UserModel::where(UserClass::TABLE_NAME.'.'.UserClass::ID_LOGIN, Utils::getLoginId())->first()->user_id;
+    }
 
     public static function getKlientId(){
+//echo         Utils::getLoginId();die();
         return KlientModel::where(KlientClass::TABLE_NAME.'.'.KlientClass::LOGIN, Utils::getLoginId())->first()->klient_id;
 
     }

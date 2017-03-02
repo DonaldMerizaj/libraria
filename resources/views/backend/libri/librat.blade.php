@@ -32,7 +32,7 @@
                             <th>ZHANRI</th>
                             <th>VITI</th>
                             <th>CMIMI</th>
-                            @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
+                            @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
                             <th>SASIA GJENDJE</th>
                             @endif
                             <th>VEPRIME</th>
