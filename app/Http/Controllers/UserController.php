@@ -85,7 +85,11 @@ class UserController extends Controller
                                        where h.shitur = 0 and h.kthyer=0');
 //                                      WHERE datediff(CURRENT_DATE(),data_dorezimit)>0 and h.kthyer=1');
 
-            $raporti = round((count($jashteAfati) / count($huazuar)) * 100);
+            if (count($huazuar) > 0){
+                $raporti = round((count($jashteAfati) / count($huazuar)) * 100);
+            }else{
+                $raporti = 0;
+            }
         }else{
             $jashteAfati = DB::select('SELECT titulli 
                                         FROM libri as l 
