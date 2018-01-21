@@ -9,4 +9,5 @@ class ZhanriModel extends Model
 {
     protected $table = ZhanriClass::TABLE_NAME;
     protected $primaryKey = ZhanriClass::ID;
+    public $timestamps = false;
 }

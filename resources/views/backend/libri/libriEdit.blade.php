@@ -10,13 +10,14 @@
                     <h3 class="box-title" style="margin-top: 0px;">Edito librin</h3>
                 </div>
             </div>
-
+            {{--<script>alert(1);</script>--}}
             {!! Form::open(array('route' => 'updateLiber', 'id'=>'krijoLiber', 'method'=>'post', 'files'=>true)) !!}
             <div class="box-body">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Titulli</label>
                         <input type="text" name="title" value="{!! $libri->titulli !!}" class="form-control" placeholder="Titulli">
+                        {{--<input type="text" name="title" value="{!! $libri[0]->titulli !!}" class="form-control" placeholder="Titulli">--}}
                         <span class="validate-error"></span>
 
                     </div>
@@ -24,6 +25,7 @@
                     <div class="form-group">
                         <label>Përshkrimi</label>
                         <textarea name="description" class="form-control" rows="3" >{!! $libri->desc !!}</textarea>
+                        {{--<textarea name="description" class="form-control" rows="3" >{!! $libri[0]->desc !!}</textarea>--}}
                         <span class="validate-error"></span>
 
                     </div>
@@ -36,6 +38,7 @@
                                 style="width: 100%;" tabindex="-1" aria-hidden="true">
                             @foreach($autor as $a)
                                 @if($a->autor_id == $libri->id_autor)
+                                {{--@if($a->autor_id == $libri[0]->id_autor)--}}
                                     <option value="{!! $a->autor_id !!}" selected> {!! $a->emri !!} {!! $a->mbiemri !!} </option>
                                 @else
                                     <option value="{!! $a->autor_id !!}" > {!! $a->emri !!} {!! $a->mbiemri !!} </option>
@@ -53,7 +56,6 @@
                         <select class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Zgjidh zhaner"
                                 style="width: 100%;" tabindex="-1" name="zhanri[]" aria-hidden="true">
                             @foreach($zhanri as $a)
-                                {{--<option value="a">{!! $a->zhanri_id !!}</option>--}}
                                 @if(in_array($a->zhanri_id, $zhanriLibrit))
                                     <option value="{!! $a->zhanri_id !!}" selected> {!! $a->emri !!}</option>
                                 @else
@@ -70,6 +72,7 @@
                     <div class="form-group">
                         <label>Cmimi</label>
                         <input type="number" name="cmimi" value="{!! $libri->cmimi !!}" class="form-control" placeholder="Cmimi">
+                        {{--<input type="number" name="cmimi" value="{!! $libri[0]->cmimi !!}" class="form-control" placeholder="Cmimi">--}}
                         <span class="validate-error"></span>
 
                     </div>
@@ -78,6 +81,7 @@
                         <label>Viti Botimit</label>
 
                         <input type="number" value="{!! $libri->viti !!}" name="viti" class="form-control pull-right" >
+                        {{--<input type="number" value="{!! $libri[0]->viti !!}" name="viti" class="form-control pull-right" >--}}
                         <span class="validate-error"></span>
 
                     </div>
@@ -85,6 +89,7 @@
                     <div class="form-group">
                         <label>Shtëpia Botuese</label>
                         <input type="text" name="shtepia" value="{!! $libri->shtepi_botuese !!}" class="form-control" placeholder="Shtëpia botimit">
+                        {{--<input type="text" name="shtepia" value="{!! $libri[0]->shtepi_botuese !!}" class="form-control" placeholder="Shtëpia botimit">--}}
                         <span class="validate-error"></span>
 
                     </div>
@@ -98,8 +103,9 @@
                     </div>
                 </div>
                 <input type="hidden" name="idlibri" value="{!! $libri->libri_id !!}">
+                {{--<input type="hidden" name="idlibri" value="{!! $libri[0]->libri_id !!}">--}}
 
-                <div class="col-sm-1">
+                <div class="col-sm-12">
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>
                 {!! Form::close() !!}

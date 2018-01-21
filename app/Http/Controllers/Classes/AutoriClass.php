@@ -15,7 +15,4 @@ class AutoriClass
     const ID = 'autor_id';
     const EMRI = 'emri';
     const MBIEMRI = 'mbiemri';
-    const DATELINDJA = 'datelindja';
-    const INFO = 'info';
-    const IMAGE = 'image';
 }

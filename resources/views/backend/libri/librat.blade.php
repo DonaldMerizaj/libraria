@@ -16,7 +16,7 @@
 
             <div class="box-body">
                 <div class="row">
-                    @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::ADMIN)
+                        @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
                     <div class="col-sm-2" style="margin-bottom: 16px;">
                         <a href="{!! URL::route('krijoLiber') !!}" class="btn btn-success">
                             <i class="fa fa-plus"></i> Krijo
@@ -82,14 +82,14 @@
                                     <i class="fa fa-pencil"></i>
                                 </a>
                                 @endif
-                                <a href="#" class="btn btn-info">
-                                    <i class="fa fa-eye"></i>
-                                </a>
+                                {{--<a href="#" class="btn btn-info">--}}
+                                    {{--<i class="fa fa-eye"></i>--}}
+                                {{--</a>--}}
                                     @if(($l->gjendje>0))
                                         @if(\App\Http\Controllers\Utils::getRole() == \App\Http\Controllers\Classes\LoginClass::KLIENT )
 
                                         @elseif(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
-                                        <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-default">
+                                        <a href="{!! URL::route('huazoLiber', array($l->libri_id)) !!}" class="btn btn-info">
                                         <i class="fa fa-money"></i>
                                         @endif
                                     @endif

@@ -54,9 +54,9 @@
                                 ?>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-default">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
+                                {{--<a href="#" class="btn btn-default">--}}
+                                    {{--<i class="fa fa-pencil"></i>--}}
+                                {{--</a>--}}
                                 {{--<a href="{!! URL::route('viewLibri', array($l->klient_id)) !!}" class="btn btn-info">--}}
                                     {{--<i class="fa fa-eye"></i>--}}
                                 {{--</a>--}}

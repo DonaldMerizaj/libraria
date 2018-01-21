@@ -17,11 +17,13 @@ class HuazimController extends Controller
         try{
             DB::beginTransaction();
 
+//            echo $request->klientId.'+ '.$request->libriId;die();
             if (is_numeric($request->klientId) && is_numeric($request->libriId)){
                 if ($request->dataMarrjes == '' || $request->dataMarrjes == null){
+
                     $new = new HuazimModel();
                     $new->id_klient = $request->klientId;
-                    $new->id_user = Utils::getUserId();
+                    $new->id_user = Utils::getLoginId();
                     $new->id_libri = $request->libriId;
                     $new->sasia = 1;
 //                    $new->data_marrjes = time();
@@ -30,7 +32,10 @@ class HuazimController extends Controller
                     $new->shitur = 1;
                     $new->save();
 
-                }else{
+                }
+                else{
+//                    echo '2';die();
+
                     $date1 = str_replace('/', '-', $request->dataMarrjes);
                     $marrje = date('Y-m-d', strtotime($date1));
 
@@ -53,15 +58,20 @@ class HuazimController extends Controller
                 $inventar = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
                     ->first();
 
-                if ($inventar->gjendje > 0){
-                    $inv = $inventar->gjendje -1;
-                    $updated = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
-                        ->update(['gjendje' => $inv]);
+//                echo json_encode($inventar);die();
+                if (count($inventar) > 0){
+                    if ($inventar->gjendje > 0){
+                        $inv = $inventar->gjendje -1;
+                        $updated = InventarModel::where(InventarClass::TABLE_NAME.'.'.InventarClass::ID_LIBRI, $request->libriId)
+                            ->update(['gjendje' => $inv]);
+                    }
                 }
+
                 DB::commit();
                 return Redirect::route('listKlient')->send();
 
-            }else{
+            }
+            else{
                 DB::rollback();
                 return Redirect::back()
                     ->withInput(Input::all())
@@ -71,7 +81,7 @@ class HuazimController extends Controller
             DB::rollback();
             return Redirect::back()
                 ->withInput(Input::all())
-                ->withErrors($e->getMessage());
+                ->withErrors($e->getMessage()."--".$e->getLine());
         }
 
     }

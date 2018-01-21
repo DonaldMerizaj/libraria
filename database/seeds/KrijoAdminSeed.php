@@ -13,7 +13,7 @@ class KrijoAdminSeed extends Seeder
     public function run()
     {
         DB::table(LoginClass::TABLE_NAME)->insert([
-            'username' => 'donald',
+            'username' => 'admin',
             'password' => '87d9bb400c0634691f0e3baaf1e2fd0d',
             'role' => 1,
         ]);

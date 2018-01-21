@@ -49,7 +49,11 @@
                                     <td>{!! $l->sasia_hyrje !!}</td>
                                     <td>
                                         <?php
-                                        $raporti = round((($l->sasia_hyrje - $l->gjendje) / $l->sasia_hyrje), 2) *100;
+                                            if ($l->sasia_hyrje >0){
+                                                $raporti = round((($l->sasia_hyrje - $l->gjendje) / $l->sasia_hyrje), 2) *100;
+                                            }else{
+                                                $raporti=0;
+                                            }
 
 
                                             echo $raporti.' %';
@@ -139,6 +143,7 @@
             </div>
         </div>
     </div>
+
     <script>
         $(function () {
 //            $("#example1").DataTable();
@@ -175,5 +180,9 @@
                 "autoWidth": true
             });
         });
+    </script>
+
+    <script>
+
     </script>
 @endsection

@@ -1,13 +1,13 @@
 @extends('layouts.prime')
 @section('pageTitle')
-    Dashboard - Klient - Krijo
+    Dashboard - Autor - Krijo
 @endsection
 @section('main_container')
     <div class="row">
         <div class="box">
             <div class="box-header">
                 <div style="background-color:#f5f5f5 !important; height: 60px;">
-                    <h3 class="box-title" style="margin-top: 0px;">Krijo klient</h3>
+                    <h3 class="box-title" style="margin-top: 0px;">Krijo autor</h3>
                 </div>
             </div>
 
@@ -22,7 +22,7 @@
                     </ul>
                 @endif
             </div>
-            {!! Form::open(array('route' => 'ruajKlient', 'id'=>'krijoKlient', 'method'=>'post', 'files'=>true)) !!}
+            {!! Form::open(array('route' => 'ruajAutor', 'id'=>'krijoAutor', 'method'=>'post', 'files'=>true)) !!}
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Emri</label>
@@ -36,53 +36,27 @@
                     <span class="validate-error"></span>
                 </div>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" value="{!! old('email') !!}" class="form-control" placeholder="email">
-                    <span class="validate-error"></span>
-                </div>
-
-                <div class="form-group">
-                    <label>Nr. Cel</label>
-                    <input type="number" name="cel" value="{!! old('cel') !!}" class="form-control" placeholder="nr cel">
-                    <span class="validate-error"></span>
-                </div>
 
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="text-align: right">
                     <button type="button" id="krijo" class="btn btn-success">Krijo</button>
                 </div>
             </div>
             {!! Form::close() !!}
         </div>
+        </div>
     </div>
 
     <script>
         $(function () {
-            $('#krijoKlient').validate({
+            $('#krijoAutor').validate({
                 rules: {
                     emri: 'required',
-                    mbiemri: 'required',
-                    email:{
-                        required: true,
-                        email: true
-                    },
-                    cel: {
-                        required: true,
-                        number: true
-                    }
+                    mbiemri: 'required'
                 },
                 messages: {
                     emri: 'Vendosni emrin',
-                    mbiemri: 'Vendosni mbiemrin',
-                    email: {
-                        required: 'Vendosni email',
-                        email: 'Vendosni email te vlefshem'
-                    },
-                    cel: {
-                        required:'Vendosni numrin e cel',
-                        number: 'Vendosni numer te vlefshem'
-                    }
+                    mbiemri: 'Vendosni mbiemrin'
                 },
                 errorPlacement: function (error, element) {
                     $.each(element, function () {
@@ -92,7 +66,7 @@
             });
 
             $("#krijo").click(function () {
-                $("#krijoKlient").submit();
+                $("#krijoAutor").submit();
             });
         })
     </script>

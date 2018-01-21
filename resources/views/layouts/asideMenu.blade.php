@@ -21,9 +21,18 @@
         <li class="">
             <a href="{!! URL::route('listLibrat') !!}"><i class="fa fa-fw fa-book"></i> Librat </a>
         </li>
-        @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
+        <li class="">
+        <a href="{!! URL::route('viewZhaner') !!}">
+            <i class="fa fa-fw fa-th-list"></i> Kategorite
+        </a>
+        </li>
+
+    @if(\App\Http\Controllers\Utils::getRole() <= \App\Http\Controllers\Classes\LoginClass::PUNONJES)
         <li class="">
             <a href="{!! URL::route('listKlient') !!}"><i class="fa fa-fw fa-users"></i> Klientët </a>
+        </li>
+            <li class="">
+            <a href="{!! URL::route('listAutor') !!}"><i class="fa fa-fw fa-user-circle"></i> Autorët </a>
         </li>
         @endif
         {{--<li class="">--}}

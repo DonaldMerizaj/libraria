@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>DuaLibrin</title>
+    <title>Libraria</title>
 
    @include('layouts.headerScripts')
 </head>
@@ -53,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">DuaLibrin</a>
+                <a class="navbar-brand" href="/">Libraria</a>
             </div>
             <!-- Top Menu Items -->
             @include('layouts.asideMenu')

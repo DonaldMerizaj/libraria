@@ -55,9 +55,9 @@
                             <td>{!! $l->cmimi !!}</td>
                             <td>{!! $l->gjendje !!}</td>
                             <td>
-                                <a href="#" class="btn btn-default">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
+                                {{--<a href="#" class="btn btn-default">--}}
+                                    {{--<i class="fa fa-pencil"></i>--}}
+                                {{--</a>--}}
                                 {{--<a href="#" class="btn btn-info">--}}
                                     {{--<i class="fa fa-eye"></i>--}}
                                 {{--</a>--}}
@@ -75,7 +75,6 @@
     </div>
     <script>
         $(function () {
-//            $("#example1").DataTable();
             $('#example1').DataTable({
                 "paging": true,
                 "lengthChange": true,

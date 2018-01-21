@@ -53,8 +53,22 @@ Route::group(['middleware'=> 'isLogged'], function (){
         Route::get('/dashboard/klient/shiko/{id}', 'KlientController@view')->name('shikoKlient');
         Route::post('/dashboard/klient/shiko/kthe', 'LibriController@kthe')->name('ktheLibri');
 
+        Route::get('/dashboard/autor', 'AutorController@index')->name('listAutor');
+        Route::get('/dashboard/autor/krijo', 'AutorController@create')->name('krijoAutor');
+        Route::post('/dashboard/autor/ruaj', 'AutorController@ruaj')->name('saveAutor');
+        Route::get('/dashboard/autor/shiko/{id}', 'AutorController@view')->name('shikoAutor');
+        Route::post('/dashboard/autor/fshi', 'AutorController@fshi')->name('fshiAutor');
+
+
+        Route::post('/dashboard/zhaner/fshi', 'ZhanriController@fshi')->name('fshiZhaner');
+        Route::post('/dashboard/zhaner/krijo', 'ZhanriController@save')->name('save_zhaner');
+        Route::get('/dashboard/zhaner', 'ZhanriController@view')->name('viewZhaner');
+
+
+        Route::get('/dashboard/mesazhe', 'UserController@viewAllMsg')->name('viewallmsg');
+        Route::post('/dashboard/mesazhe/fshi', 'UserController@fshiMsg')->name('fshiMsg');
+
         Route::get('/dashboard/raporte', 'InventarController@raporte')->name('listRaporte');
-//        Route::get('/dashboard/klient', 'KlientController@index')->name('listKlient');
 
     });
         Route::get('/logout', 'UserController@logout')->name('logout');

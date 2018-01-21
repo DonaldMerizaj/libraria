@@ -15,38 +15,30 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $this->validate($request, [
-            'username'=>'required',
-            'password'=>'required'
+            'username' => 'required',
+//            'password'=>'required'
         ]);
-        $pass=Utils::enkripto($request->password);
 
+        $pass = Utils::enkripto($request->password);
+        //logimi vulnerabel nga sql injection
 //        $user = DB::select("select * from login where username = '$request->username' and password = '$request->password'");
 
-        $user=LoginModel::where('username',htmlentities(trim($request->username)))->where('password',$pass)
+//        logimi i mbrojtur nga SQL injection
+        $user = LoginModel::where('username', htmlentities(trim($request->username)))->where('password', $pass)
             ->first();
-//        echo count($user); die();
-
-
-//        $us = DB::select("Select * from login where login.username ='$request->username' and login.password = '$request->password'");
-//        echo count($us); die();
-//        if(count($user[0]) > 0){
-//            $role = $user[0]->role;
-        if (count($user) > 0){
+        if (count($user) > 0) {
             $role = $user->role;
             if ($role == LoginClass::KLIENT) {
-//                $useri = KlientModel::where('id_login', $user[0]->login_id)->first();
                 $useri = KlientModel::where('id_login', $user->login_id)->first();
             } else {
-//                $useri = UserModel::where('id_login', $user[0]->login_id)->first();
                 $useri = UserModel::where('id_login', $user->login_id)->first();
             }
-//            Utils::setLogin($user[0]->login_id, $role);
             Utils::setLogin($user->login_id, $role);
             return Redirect::route('dashboard');
-        }
-           else{
+        } else {
             return Redirect::back()->withErrors('Të dhënat nuk u gjetën, ju lutemi vendosni të dhënat e sakta!');
         }
     }
@@ -68,6 +60,7 @@ class UserController extends Controller
     public function create(){
 
     }
+
     public function index(){
         $username = LoginModel::where(LoginClass::TABLE_NAME.'.'.LoginClass::ID, Utils::getLoginId())->first()->username;
 

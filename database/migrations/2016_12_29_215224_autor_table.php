@@ -17,9 +17,6 @@ class AutorTable extends Migration
             $table->increments('autor_id');
             $table->string('emri');
             $table->string('mbiemri');
-            $table->dateTime('datelindja');
-            $table->string('info');
-            $table->string('image');
         });
     }
 

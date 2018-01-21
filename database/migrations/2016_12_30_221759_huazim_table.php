@@ -27,7 +27,7 @@ class HuazimTable extends Migration
 
         Schema::table('huazim', function (Blueprint $table){
             $table->foreign('id_klient')->references('klient_id')->on('klient');
-            $table->foreign('id_user')->references('user_id')->on('user');
+            $table->foreign('id_user')->references('login_id')->on('login');
             $table->foreign('id_libri')->references('libri_id')->on('libri');
         });
     }
